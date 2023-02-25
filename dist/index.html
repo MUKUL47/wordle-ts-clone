@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WORDLE</title>
+    <script type="module" crossorigin src="/assets/index-0725d63b.js"></script>
+    <link rel="stylesheet" href="/assets/index-f7a66b79.css">
+  </head>
+  <body>
+    <main>
+      <section class="header" header-type="welcome">
+        <span style="--delay-index: 0">W</span>
+        <span style="--delay-index: 1">O</span>
+        <span style="--delay-index: 2">R</span>
+        <span style="--delay-index: 3">D</span>
+        <span style="--delay-index: 4">L</span>
+        <span style="--delay-index: 5">E</span>
+      </section>
+
+      <section class="header header_won display-none" header-type="won">
+        <span style="--delay-index: 0">Y</span>
+        <span style="--delay-index: 1">O</span>
+        <span style="--delay-index: 2">U</span>
+        <span style="--delay-index: 3">W</span>
+        <span style="--delay-index: 4">O</span>
+        <span style="--delay-index: 5">N</span>
+      </section>
+
+      <section class="header header_lost display-none" header-type="lost">
+        <span style="--delay-index: 0">Y</span>
+        <span style="--delay-index: 1">O</span>
+        <span style="--delay-index: 2">U</span>
+        <span style="--delay-index: 3">L</span>
+        <span style="--delay-index: 4">O</span>
+        <span style="--delay-index: 5">S</span>
+        <span style="--delay-index: 6">T</span>
+      </section>
+
+      <div class="flex" style="justify-content: center"><button onclick="window.location.reload()">Restart</button></div>
+        
+      </div>
+
+      <wordleplayground></wordleplayground>
+      <wordlekeyboard>
+        <row>
+          <button>Q</button><button>W</button><button>E</button
+          ><button>R</button><button>T</button><button>Y</button
+          ><button>U</button><button>I</button><button>O</button
+          ><button>P</button>
+        </row>
+        <row
+          ><button>A</button><button>S</button><button>D</button
+          ><button>F</button><button>G</button><button>H</button
+          ><button>J</button><button>K</button><button>L</button></row
+        >
+        <row>
+          <button>Z</button><button>X</button><button>C</button
+          ><button>V</button><button>B</button><button>N</button
+          ><button>M</button>
+          <button>BACKSPACE</button>
+        </row>
+      </wordlekeyboard>
+      
+    <footer>
+      Made by
+      <strong
+        ><a
+          style="color: #fff"
+          target="_blank"
+          href="https://github.com/MUKUL47/sudoku"
+          >Mukul</a
+        ></strong
+      >
+    </footer>
+    </main>
+    
+  </body>
+</html>
