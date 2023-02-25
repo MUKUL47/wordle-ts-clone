@@ -2268,16 +2268,14 @@ var words_default = [
 
 // wordle.service.ts
 var Wordle = class extends WordleDom {
-  //   private gameStatus: GameStatus = GameStatus.IN_PROGRESS;
   constructor() {
     super();
     this.WORDLE_ROW = 5;
     this.WORDLE_COL = 5;
-    //   private wordlePlayground: Array<Array<Word>> = this.getEmptyPlayground();
+    this.wordlePlayground = this.getEmptyPlayground();
     this.activeRow = 0;
     this.activeRowIndex = 0;
     this.randomWord = "";
-    this.correctGuessCounter = 0;
     this.gameOver = false;
     this.rowFinished = false;
     this.onDelete = () => {
@@ -2313,6 +2311,7 @@ var Wordle = class extends WordleDom {
         flag: false
       }, this.coord()));
       value = value.toUpperCase();
+      this.wordlePlayground[this.activeRow][this.activeRowIndex].value = value;
       this.checkCellStatus(value);
       this.updatePlaygroundCell(__spreadProps(__spreadValues({}, this.coord()), {
         value
@@ -2326,9 +2325,9 @@ var Wordle = class extends WordleDom {
       }, this.coord()));
     };
     this.onEnter = () => {
-      if (!this.rowFinished || this.gameOver || this.activeRowIndex < this.WORDLE_ROW - 1)
+      this.checkWin();
+      if (!this.rowFinished || this.activeRowIndex < this.WORDLE_ROW - 1)
         return;
-      this.correctGuessCounter = 0;
       this.setRowFinished(this.activeRow);
       this.toggleActiveCell(__spreadValues({
         flag: false
@@ -2349,9 +2348,9 @@ var Wordle = class extends WordleDom {
       return { activeRow: this.activeRow, activeRowIndex: this.activeRowIndex };
     };
     this.setCallback({
-      onKeyInput: this.onKeyInput,
-      onDelete: this.onDelete,
-      onEnter: this.onEnter
+      onKeyInput: (v) => !this.gameOver && this.onKeyInput(v),
+      onDelete: () => !this.gameOver && this.onDelete(),
+      onEnter: () => !this.gameOver && this.onEnter()
     });
     this.initializeRandomWord();
     this.initializeWordleCells({ row: this.WORDLE_ROW, col: this.WORDLE_COL });
@@ -2359,25 +2358,25 @@ var Wordle = class extends WordleDom {
       flag: true
     }, this.coord()));
   }
-  //   private getEmptyPlayground(): Array<Array<Word>> {
-  //     const playGround: Array<Array<Word>> = [];
-  //     for (let i = 0; i < this.WORDLE_COL; i++) {
-  //       const col: Array<Word> = [];
-  //       for (let j = 0; j < this.WORDLE_ROW; j++) {
-  //         col.push({
-  //           value: "",
-  //         } as Word);
-  //       }
-  //       playGround.push(col);
-  //     }
-  //     return playGround;
-  //   }
+  getEmptyPlayground() {
+    const playGround = [];
+    for (let i = 0; i < this.WORDLE_COL; i++) {
+      const col = [];
+      for (let j = 0; j < this.WORDLE_ROW; j++) {
+        col.push({
+          value: ""
+        });
+      }
+      playGround.push(col);
+    }
+    return playGround;
+  }
   initializeRandomWord() {
     this.randomWord = words_default[Math.floor(Math.random() * words_default.length)].toUpperCase();
   }
-  checkWin(correctGuess) {
-    correctGuess && this.correctGuessCounter++;
-    this.gameOver = this.correctGuessCounter === this.WORDLE_COL;
+  checkWin() {
+    var _a;
+    this.gameOver = ((_a = this.wordlePlayground[this.activeRow]) == null ? void 0 : _a.map((v) => v.value).join("")) === this.randomWord;
     if (this.gameOver) {
       this.gameOverUI(true);
     }
@@ -2391,7 +2390,6 @@ var Wordle = class extends WordleDom {
       activeRow: this.activeRow,
       activeRowIndex: this.activeRowIndex
     });
-    this.checkWin(hasIndexMatch);
   }
   //   isGameFinished(): boolean {}
 };
