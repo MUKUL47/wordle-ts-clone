@@ -20,6 +20,7 @@ export enum Attributes {
   ACTIVE_CELL = "active-cell",
   //
   HEADER_TYPE = "header-type",
+  EXPOSE = "expose",
 }
 class Dom {
   public static readonly VALID_ALPHABETS = [
@@ -77,13 +78,16 @@ export default class WordleDom extends Dom {
   public setCallback({
     onKeyInput,
     onDelete,
+    onEnter,
   }: {
     onDelete: () => any;
+    onEnter: () => any;
     onKeyInput: (s: string) => any;
   }) {
     const sendCb = (v: string) => {
       if (v === "BACKSPACE") onDelete();
       else if (Dom.VALID_ALPHABETS.includes(v)) onKeyInput(v);
+      else if (v === "ENTER") onEnter();
     };
     document.addEventListener("keyup", (e) => {
       sendCb(e.key.toUpperCase());
@@ -115,10 +119,12 @@ export default class WordleDom extends Dom {
   }
 
   public setRowFinished(row: number) {
-    this.qS(DomSelectors.WORDLE)?.children[row]?.setAttribute(
-      Attributes.ROW_COMPLETED,
-      ""
-    );
+    const completedRow: any = this.qS(DomSelectors.WORDLE)?.children[row];
+    completedRow?.setAttribute(Attributes.ROW_COMPLETED, "");
+    for (let i = 0; i < Array.from(completedRow.children).length; i++) {
+      const cell = completedRow.children[i];
+      setTimeout(() => cell.setAttribute(Attributes.EXPOSE, ""), i * 450);
+    }
   }
 
   public updateCellStatus({

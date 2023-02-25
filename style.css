@@ -45,10 +45,10 @@ wordle row div {
   align-items: center;
   position: relative;
 }
-wordle row div[incorrect-positive-move] {
+wordle div[incorrect-positive-move][expose] {
   background-color: #ffa500;
 }
-wordle row div[correct-positive-move] {
+wordle div[correct-positive-move][expose] {
   background-color: #2ecc71;
 }
 wordle row div[active-cell="true"]::after {
